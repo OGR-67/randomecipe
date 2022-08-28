@@ -1,0 +1,21 @@
+{% extends 'recipe/base.html' %} {% load placeholder %} {% block content %}
+<main class="page_title-layout">
+  <form method="post" action="{% url 'users:register' %}" class="form-layout">
+    {% csrf_token %} {{ form.username|placeholder:"Username" }}
+    <span class="form_error">{{ form.errors.username }}</span>
+    <br />
+    {{ form.password1|placeholder:"Password" }}
+    {{ form.password2|placeholder:"Confirm password" }}
+    <span class="form_error">{{ form.errors.password2 }}</span>
+    <button class="button submit_btn" name="submit">Register</button>
+
+    <input type="hidden" name="next" value="{% url 'users:login' %}" />
+  </form>
+
+  <p>
+    <a href="{% url 'recipe:index' %}" class="link_as_button"
+      >Return to main page</a
+    >
+  </p>
+</main>
+{% endblock content %}

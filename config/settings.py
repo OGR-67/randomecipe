@@ -22,16 +22,15 @@ IN_PRODUCTION = True
 def get_local_key():
     with open(os.path.join(BASE_DIR, "config", "secret_key.txt")) as f:
         key = f.read()
-        IN_PRODUCTION = False
     return key
 
 SECRET_KEY = os.environ.get("DJANGO_KEY", get_local_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 FORCE_DEBUG = False
-DEBUG = IN_PRODUCTION or FORCE_DEBUG
+DEBUG = not IN_PRODUCTION or FORCE_DEBUG
 
-ALLOWED_HOSTS = ["127.0.0.1", 'randomecipe.herokuapp.com']
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     # My apps

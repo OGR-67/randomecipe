@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'recipe',
     'users',
     # Django apps
-    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +48,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,12 +134,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # My settings
 LOGIN_URL = "users:login"
-
-# Heroku settings.
-import django_heroku
-django_heroku.settings(locals(), staticfiles=False)
-
-if os.environ.get('DEBUG') == "TRUE":
-    DEBUG = True
-elif os.environ.get('DEBUG') == "FALSE":
-    DEBUG = False

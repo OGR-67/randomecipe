@@ -1,0 +1,62 @@
+{% extends 'recipe/base.html' %} {% block content %}
+<main class="page_title-layout">
+  <h1>Favorites</h1>
+  <h3 class="page-subtitle">Your favorites are saved for ever even if a recipe is no
+    longer in the recipes of the week section.</h3>
+</main>
+
+{% if page_obj %} {% for recipe in page_obj %}
+<section class="section-layout">
+  <h3 class="recipe-title">{{recipe.recipe.title}}</h3>
+  <div class="imageAndIngredients-container">
+    <img src="{{recipe.recipe.image_url}}" alt="A photography of meal: {{recipe.recipe.title}}" class="recipe_img" />
+    <div class="ingredients-container">
+      <h4 class="recipe-subtitles">Ingredients</h4>
+      <ul>
+        {% for ingredient in recipe.recipe.ingredients %}
+        <li>{{ ingredient }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <h4 class="recipe-subtitles">Instructions</h4>
+  <ol>
+    {% for instruction in recipe.recipe.instructions %}
+    <li class="instructions-text">{{ instruction.text }}</li>
+    {% endfor %}
+  </ol>
+  </li>
+  <form action="{% url 'recipe:del_favorite' recipe.recipe.API_id %}" method="post">
+    {% csrf_token %}
+    <button class="button delete-button" name="submit"><i class="fa-solid fa-trash-can"></i> Delete</button>
+  </form>
+</section>
+{% endfor %}
+
+{% else %}
+<section class="section-layout section-style">
+  <p class="page-description">No favorite yet...</p>
+  <p class="page-description">Add some and see them here.</p>
+</section>
+{% endif %}
+{% if page_obj %}
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
+{% endblock content %}

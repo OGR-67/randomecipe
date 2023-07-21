@@ -1,0 +1,10 @@
+<title>Page Not Found</title>
+{% extends 'recipe/base.html' %} {% block content %}
+<main class="page_title-layout page_title-style">
+  <h1>Page not found</h1>
+  <h3 class="page-subtitle">The page you requested is not avaible (404)</h3>
+  <p>
+    <a href="{% url 'recipe:index' %}" class="link_as_button">Back to Home Page</a>
+  </p>
+</main>
+{% endblock content %}

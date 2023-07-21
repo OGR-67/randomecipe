@@ -1,0 +1,9 @@
+<title>Server Error</title> {% extends 'recipe/base.html' %} {% block content %}
+<main class="page_title-layout page_title-style">
+  <h1>Server Error</h1>
+  <h3 class="page-subtitle">There has been an internal error (500)</h3>
+  <p>
+    <a href="{% url 'recipe:index' %}" class="link_as_button">Back to Home Page</a>
+  </p>
+</main>
+{% endblock content %}

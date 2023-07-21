@@ -1,0 +1,12 @@
+{% extends 'recipe/base.html' %} {% block content%}
+<main class="page_title-layout">
+  <h1 class="index-title">Randomecipe</h1>
+  <h3>
+    Welcome! Randomecipe offers you 5 recipes every week. These can be a meal,
+    drink, dessert, etc... It's totally random!
+  </h3>
+  <p>
+    <a href="{% url 'recipe:recipes' %}" class="link_as_button">Enjoy your food!</a>
+  </p>
+</main>
+{% endblock content%}

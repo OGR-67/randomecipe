@@ -1,0 +1,72 @@
+{% extends 'recipe/base.html' %} {% block content %}
+<main class="page_title-layout">
+  <h1>Recipes of the week</h1>
+  <h3 class="page-subtitle">5 Random Recipes Every Week!</h3>
+  {% if not user.is_authenticated %}
+  <p class="page-description">
+    <a href="{% url 'users:register' %}">Register</a> or
+    <a href="{% url 'users:login' %}">login</a> to add recipes to your favorites
+    so they are saved for EVER!
+  </p>
+  {% endif %}
+</main>
+
+{% if page_obj %} {% for recipe in page_obj %}
+<section class="section-layout">
+  <h3 class="recipe-title">{{recipe.title}}</h3>
+
+  <div class="imageAndIngredients-container">
+    <img class="recipe_img" src="{{recipe.image_url}}" alt="{{recipe.title}}" />
+    <div class="ingredients-container">
+      <h4 class="recipe-subtitles">Ingredients</h4>
+      <ul>
+        {% for ingredient in recipe.ingredients %}
+        <li>{{ ingredient }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <h4 class="recipe-subtitles">Instructions</h4>
+  <ol>
+    {% for instruction in recipe.instructions %}
+    <li class="instructions-text">{{ instruction }}</li>
+    {% endfor %}
+  </ol>
+  {% if user.is_authenticated %} {% if recipe in favorites %}
+  <p>This recipe is in your favorites</p>
+  {% else %}
+  <form action="{% url 'recipe:add_favorite' recipe.API_id %}" method="post">
+    {% csrf_token %}
+    <button class="button" name="submit">
+      <i class="fa-solid fa-plus"></i> Add to favorites
+    </button>
+  </form>
+  {% endif %} {% endif %}
+</section>
+{% endfor %} {% else %}
+<section class="section-layout">
+  <p>No recipes yet...</p>
+  <p>Comming soon.</p>
+</section>
+{% endif %} {% if page_obj %}
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a class="pagination-logo" href="?page=1"><i class="fa-solid fa-backward-fast"></i></a>
+    <a class="pagination-logo" href="?page={{ page_obj.previous_page_number }}"><i
+        class="fa-solid fa-caret-left"></i></a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a class="pagination-logo" href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-caret-right"></i></a>
+    <a class="pagination-logo" href="?page={{ page_obj.paginator.num_pages }}"><i
+        class="fa-solid fa-forward-fast"></i></a>
+    {% endif %}
+  </span>
+</div>
+{% endif %} {% endblock content %}

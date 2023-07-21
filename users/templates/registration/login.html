@@ -1,0 +1,22 @@
+<title>Randomecipe - Log in</title>
+{% extends 'recipe/base.html' %} {% load placeholder %} {% block content %}
+<main class="page_title-layout">
+  <form method="post" action="{% url 'users:login' %}" class="form-layout">
+    {% csrf_token %} {% for field in form %} {{ field|placeholder:field.label }}
+    {%endfor %} {% if form.errors %}
+    <p class="form_error">
+      Your username and password didn't match. Please try again.
+    </p>
+    {% endif %}
+    <button class="button" name="submit" class="submit_btn">Log in</button>
+
+    <input type="hidden" name="next" value="{% url 'users:user_account' %}" />
+  </form>
+
+  <p>
+    <a href="{% url 'recipe:index' %}" class="link_as_button"
+      >Return to main page</a
+    >
+  </p>
+</main>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page_title }}</title>
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/aef009d6c6.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static '/recipe/style.css' %}" />
+  <link rel="icon" href="data:;base64,=" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+</head>
+
+<body>
+  <ul class="menu">
+    <li class="nav-li logo">
+      <a class="menuItem logo" href="{% url 'recipe:index' %}"><i class="fa-solid fa-cookie-bite"></i></a>
+    </li>
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'recipe:recipes' %}">Recipes of the week</a>
+    </li>
+    {% if user.is_authenticated %}
+    <li><br /></li>
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'users:user_account' %}">{{request.user}} Profile</a>
+    </li>
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'recipe:favorites' %}">Favorites</a>
+    </li>
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'users:logout' %}">Log Out</a>
+    </li>
+    {% else %}
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'users:login' %}">Login</a>
+    </li>
+    <li class="nav-li">
+      <a class="menuItem" href="{% url 'users:register' %}">Register</a>
+    </li>
+    {% endif %}
+  </ul>
+  <button class="hamburger">
+    <i class="menuIcon buger-icon fa-solid fa-bars"></i>
+    <i class="closeIcon buger-icon fa-solid fa-xmark"></i>
+  </button>
+  {% block content %}{% endblock content %}
+  <script src="{% static '/recipe/script.js' %}"></script>
+</body>
+
+</html>

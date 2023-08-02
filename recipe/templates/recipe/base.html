@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,42 +11,48 @@
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/aef009d6c6.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="{% static '/recipe/style.css' %}" />
-  <link rel="icon" href="data:;base64,=" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </head>
 
 <body>
-  <ul class="menu">
-    <li class="nav-li logo">
-      <a class="menuItem logo" href="{% url 'recipe:index' %}"><i class="fa-solid fa-cookie-bite"></i></a>
-    </li>
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'recipe:recipes' %}">Recipes of the week</a>
-    </li>
+  <nav>
+    <div class="nav-wrapper">
+
+      <div class="brand-logo logo">
+        <a href="{% url 'recipe:index' %}"><i class="fa-solid fa-cookie-bite"></i></a>
+      </div>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="{% url 'recipe:recipes' %}">Recipes of the week</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'users:user_account' %}">{{request.user}} Profile</a></li>
+        <li><a href="{% url 'recipe:favorites' %}">Favorites</a></li>
+        <li><a href="{% url 'users:logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'users:login' %}">Login</a></li>
+        <li><a href="{% url 'users:register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="{% url 'recipe:recipes' %}">Recipes of the week</a></li>
     {% if user.is_authenticated %}
-    <li><br /></li>
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'users:user_account' %}">{{request.user}} Profile</a>
-    </li>
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'recipe:favorites' %}">Favorites</a>
-    </li>
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'users:logout' %}">Log Out</a>
-    </li>
+    <li><a href="{% url 'users:user_account' %}">{{request.user}} Profile</a></li>
+    <li><a href="{% url 'recipe:favorites' %}">Favorites</a></li>
+    <li><a href="{% url 'users:logout' %}">Log Out</a></li>
     {% else %}
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'users:login' %}">Login</a>
-    </li>
-    <li class="nav-li">
-      <a class="menuItem" href="{% url 'users:register' %}">Register</a>
-    </li>
+    <li><a href="{% url 'users:login' %}">Login</a></li>
+    <li><a href="{% url 'users:register' %}">Register</a></li>
     {% endif %}
   </ul>
-  <button class="hamburger">
-    <i class="menuIcon buger-icon fa-solid fa-bars"></i>
-    <i class="closeIcon buger-icon fa-solid fa-xmark"></i>
-  </button>
   {% block content %}{% endblock content %}
   <script src="{% static '/recipe/script.js' %}"></script>
 </body>

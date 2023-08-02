@@ -1,12 +1,44 @@
 {% extends 'recipe/base.html' %} {% block content%}
-<main class="page_title-layout">
-  <h1 class="index-title">Randomecipe</h1>
-  <h3>
+<main class="index__page-title-layout">
+  <h1>Randomecipe</h1>
+  <h5>
     Welcome! Randomecipe offers you 5 recipes every week. These can be a meal,
-    drink, dessert, etc... It's totally random!
-  </h3>
-  <p>
-    <a href="{% url 'recipe:recipes' %}" class="link_as_button">Enjoy your food!</a>
-  </p>
+    drink, dessert, etc...<br>It's totally random!
+  </h5>
+  <a href="#carousel" class="waves-effect waves-light btn">Enjoy your food!</a>
 </main>
+
+<!-- Carousel -->
+<div id="carousel" class="carousel force-carousel">
+  {% for recipe in recipes_list %}
+  <!-- Card -->
+  <div class="carousel-item">
+    <div id="card" class="card force-card">
+      <div class=" card-image waves-effect waves-block waves-light">
+        <img class="activator" src="{{ recipe.image_url }}">
+      </div>
+      <div class="card-content">
+        <span class="card-title activator">{{ recipe.title }}<i class="material-icons right">more_vert</i></span>
+        <p>
+          <a class="waves-effect waves-light btn-small"
+            href="{% url 'recipe:recipes' %}?page={{ forloop.counter }}">Let's
+            cook!</a>
+
+        </p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title">Ingredients<i class="material-icons right">close</i></span>
+        <ul>
+          {% for ingredient in recipe.ingredients %}
+          <li class="teal-text text-darken-4">{{ ingredient }}</li>
+          <br>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
 {% endblock content%}

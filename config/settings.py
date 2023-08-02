@@ -36,6 +36,8 @@ DEBUG = not IN_PRODUCTION or FORCE_DEBUG
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
+    # Third-party apps
+    'widget_tweaks',
     # My apps
     'recipe',
     'users',

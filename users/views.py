@@ -6,14 +6,22 @@ from django.contrib.auth.decorators import login_required
 from recipe.models import UserFavoriteRecipe
 
 
+class CustomUserCreationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'test'
+        self.fields['password1'].widget.attrs['class'] = 'test'
+        self.fields['password2'].widget.attrs['class'] = 'test'
+
+
 def register(request):
     """Register a new user."""
     if request.method != 'POST':
         # Display blank registration form.
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     else:
         # Process completed form.
-        form = UserCreationForm(
+        form = CustomUserCreationForm(
             data=request.POST)
 
     if form.is_valid():

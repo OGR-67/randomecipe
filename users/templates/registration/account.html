@@ -1,20 +1,14 @@
 {% extends 'recipe/base.html' %} {% block content %}
-<section class="page_title-layout page_title-style">
+<section class="page_login-layout page_title-style">
   <h1>{{ request.user }} Account</h1>
   <p>You have {{ number_of_favorites }} favorite recipes</p>
   <p>
-    <a href="{% url 'recipe:favorites' %}" class="link_as_button"
-      >Go to favorites</a
-    >
+    <a href="{% url 'recipe:favorites' %}" class="waves-effect waves-light btn">Go to favorites</a>
   </p>
-  <form
-    action="{% url 'users:del_account' %}"
-    method="post"
-    class="form-layout"
-  >
+  <form action="{% url 'users:del_account' %}" method="post" class="form-layout">
     {% csrf_token %}
-    <button class="button delete-button" name="submit">
-      <i class="fa-solid fa-trash-can"></i> Delete Account
+    <button class="btn waves-effect waves-light red" type="submit" name="submit"><i
+        class="material-icons left">delete_forever</i>Delete Account
     </button>
   </form>
 </section>

@@ -7,18 +7,19 @@ from recipe.models import CurrentRecipe, Recipe, UserFavoriteRecipe
 
 
 def index(request):
+    recipes_list = _getCurrentRecipes()
     page_title = "Randomecipe - Home Page"
-    context = {"page_title": page_title}
+    context = {
+        "page_title": page_title,
+        "recipes_list": recipes_list,
+        "query": "?page="
+    }
     return render(request, "recipe/index.html", context)
 
 
 def recipes(request):
-    recipes_list = []
+    recipes_list = _getCurrentRecipes()
     favorites = []
-    current_recipe = CurrentRecipe.objects.all()
-    for recipe in current_recipe:
-        to_add = Recipe.objects.get(API_id=recipe.recipe)
-        recipes_list.append(to_add)
     if request.user:
         favorites_query = UserFavoriteRecipe.objects.filter(
             user=request.user.id)
@@ -33,6 +34,15 @@ def recipes(request):
         "favorites": favorites,
     }
     return render(request, "recipe/recipes.html", context)
+
+
+def _getCurrentRecipes():
+    recipes_list = []
+    current_recipe = CurrentRecipe.objects.all()
+    for recipe in current_recipe:
+        to_add = Recipe.objects.get(API_id=recipe.recipe)
+        recipes_list.append(to_add)
+    return recipes_list
 
 
 @login_required
